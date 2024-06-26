@@ -12,7 +12,7 @@ export async function fetchMovieByTitle(query: string) {
   }
 }
 
-export async function fetchMovie(query: string) {
+export async function fetchMovies(query: string) {
   try {
     let data;
     const res = await fetch(`${BASE_URL}&s=${query}`);

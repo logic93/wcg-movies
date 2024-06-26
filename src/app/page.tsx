@@ -1,19 +1,15 @@
 "use client";
 
-import { fetchMovie } from "@/api";
+import { fetchMovies } from "@/api";
 import useDebounce from "@/hooks/useDebounce";
+import { MovieTvProps } from "@/types";
+import { LOCAL_STORAGE_MOVIES } from "@/utils/constants";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-
-interface MovieData {
-  Title: string;
-  Plot: string;
-  Poster: string;
-  Year: string;
-}
 
 export default function Home() {
   const [query, setQuery] = useState("");
-  const [OMDbMovies, setOMDbMovies] = useState<MovieData[]>([]);
+  const [OMDbMovies, setOMDbMovies] = useState<MovieTvProps[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,7 +26,7 @@ export default function Home() {
       setError(null);
 
       try {
-        const data = await fetchMovie(debouncedQuery);
+        const data = await fetchMovies(debouncedQuery);
         setOMDbMovies(data);
       } catch (err) {
         setError("Failed to fetch movie data");
@@ -46,6 +42,24 @@ export default function Home() {
     setQuery(e.target.value);
   };
 
+  const onSaveMovie = (newMovie: MovieTvProps) => {
+    const existingMovies = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_MOVIES) || "[]"
+    );
+
+    const movieExists = existingMovies.some((movie: any) => {
+      return movie.imdbID === newMovie.imdbID;
+    });
+
+    if (!movieExists) {
+      existingMovies.push(newMovie);
+      localStorage.setItem(
+        LOCAL_STORAGE_MOVIES,
+        JSON.stringify(existingMovies)
+      );
+    }
+  };
+
   return (
     <div>
       <input
@@ -55,12 +69,15 @@ export default function Home() {
         placeholder="Search"
       />
 
+      <Link href="/list">My Movies</Link>
+
       {OMDbMovies && (
         <ul>
           {OMDbMovies.map((movie, index) => (
             <li key={index}>
               <a>
                 <div className="flex flex-row">
+                  <button onClick={() => onSaveMovie(movie)}>Save</button>
                   <img
                     src={movie?.Poster}
                     width={50}
