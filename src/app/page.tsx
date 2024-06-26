@@ -75,7 +75,7 @@ export default function Home() {
         <ul>
           {OMDbMovies.map((movie, index) => (
             <li key={index}>
-              <a>
+              <Link href={`/title/${movie.imdbID}`} prefetch={true}>
                 <div className="flex flex-row">
                   <button onClick={() => onSaveMovie(movie)}>Save</button>
                   <img
@@ -90,7 +90,7 @@ export default function Home() {
                     </h2>
                   </div>
                 </div>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

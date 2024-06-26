@@ -12,6 +12,15 @@ export async function fetchMovieByTitle(query: string) {
   }
 }
 
+export async function fetchMovieByID(query: string) {
+  try {
+    const res = await fetch(`${BASE_URL}&i=${query}`);
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function fetchMovies(query: string) {
   try {
     let data;
