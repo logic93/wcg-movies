@@ -5,3 +5,9 @@ export interface MovieTvProps {
   Year: string;
   imdbID: string;
 }
+
+export interface NavbarProps {
+  value: string;
+  onChange: any;
+  onAddMovie: any;
+}
