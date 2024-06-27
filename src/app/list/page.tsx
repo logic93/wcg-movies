@@ -1,6 +1,6 @@
 "use client";
 
-import { MovieTvProps } from "@/types";
+import { MovieProps } from "@/types";
 import { LOCAL_STORAGE_MOVIES } from "@/utils/constants";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ export default function List() {
     localStorage.getItem(LOCAL_STORAGE_MOVIES) || "[]"
   );
 
-  const [movies, setMovies] = useState<MovieTvProps[]>(storedMovies);
+  const [movies, setMovies] = useState<MovieProps[]>(storedMovies);
 
   return (
     <div>
@@ -23,6 +23,16 @@ export default function List() {
           Delete all
         </button>
       )}
+
+      {/* <button
+        onClick={() => {
+          localStorage.clear();
+          localStorage.getItem(LOCAL_STORAGE_MOVIES);
+          console.log(storedMovies);
+        }}
+      >
+        clear
+      </button> */}
 
       <ul>
         {movies.map((movie, index) => (
