@@ -5,15 +5,15 @@ import { LOCAL_STORAGE_MOVIES } from "@/utils/constants";
 import { useState } from "react";
 
 export default function List() {
-  const storedMovies = JSON.parse(
-    localStorage.getItem(LOCAL_STORAGE_MOVIES) || "[]"
-  );
+  const storedMovies =
+    typeof window !== "undefined" &&
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_MOVIES) || "[]");
 
-  const [movies, setMovies] = useState<MovieProps[]>(storedMovies);
+  const [movies, setMovies] = useState<MovieProps[] | null>(storedMovies);
 
   return (
     <div>
-      {storedMovies.length > 0 && (
+      {storedMovies && storedMovies.length > 0 && (
         <button
           onClick={() => {
             localStorage.clear();
@@ -34,27 +34,29 @@ export default function List() {
         clear
       </button> */}
 
-      <ul>
-        {movies.map((movie, index) => (
-          <li key={index}>
-            <a>
-              <div className="flex flex-row">
-                <img
-                  src={movie?.Poster}
-                  width={150}
-                  height={225}
-                  alt={`${movie.Title} Poster`}
-                />
-                <div>
-                  <h2>
-                    {movie.Title} ({movie.Year})
-                  </h2>
-                </div>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {movies && movies.length > 0 && (
+        <div>
+          <ul>
+            {movies.map((movie, index) => (
+              <button key={index} onClick={() => {}}>
+                <li>
+                  <div>
+                    <img
+                      src={movie?.Poster}
+                      width={50}
+                      height={75}
+                      alt={`${movie?.Title} Poster`}
+                    />
+                    <h2>
+                      {movie?.Title} ({movie?.Year})
+                    </h2>
+                  </div>
+                </li>
+              </button>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
