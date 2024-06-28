@@ -52,5 +52,5 @@ export interface OMDBbDropdownProps {
 export interface MovieContentProps {
   selectedMovie: MovieProps | null;
   isBookmarked: boolean;
-  onSaveMovie: (item: MovieProps) => void;
+  onBookmark: (item: MovieProps) => void;
 }

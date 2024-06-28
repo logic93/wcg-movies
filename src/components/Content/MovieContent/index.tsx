@@ -15,7 +15,7 @@ export default function MovieContent(props: MovieContentProps) {
       <LogoButton
         className="absolute right-0 top-0"
         onClick={() =>
-          props.selectedMovie && props.onSaveMovie(props.selectedMovie)
+          props.selectedMovie && props.onBookmark(props.selectedMovie)
         }
       >
         <BookmarkIcon fill={props.isBookmarked ? "black" : "none"} />
