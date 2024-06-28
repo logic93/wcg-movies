@@ -5,7 +5,7 @@ import Link from "next/link";
 import { LogoButton } from "../Buttons/LogoButton";
 import { AddIcon } from "../Icons/AddIcon";
 import { ListIcon } from "../Icons/ListIcon";
-import { MovieIcon } from "../Icons/MovieIcon";
+import WCGIcon from "../Icons/WCGIcon";
 
 export function Navbar(props: NavbarProps) {
   return (
@@ -14,7 +14,7 @@ export function Navbar(props: NavbarProps) {
         <div className="nav-wrapper">
           <div className="nav-content">
             <Link href="/">
-              <MovieIcon />
+              <WCGIcon />
             </Link>
 
             <input
@@ -22,6 +22,7 @@ export function Navbar(props: NavbarProps) {
               type="text"
               value={props.value}
               onChange={props.onChange}
+              onFocus={props.onFocus}
               placeholder="Search OMDb"
             />
 

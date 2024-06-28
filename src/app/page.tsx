@@ -1,8 +1,10 @@
 "use client";
 
 import { fetchMovieByID, fetchMovies } from "@/api";
+import { LogoButton } from "@/components/Buttons/LogoButton";
 import MovieContent from "@/components/Content/MovieContent";
 import OMDbDropdown from "@/components/Dropdowns/OMDbDropdown";
+import WCGMovieIcon from "@/components/Icons/WCGMoviesIcon";
 import Modal from "@/components/Modals";
 import { Navbar } from "@/components/Navbar";
 import useDebounce from "@/hooks/useDebounce";
@@ -23,25 +25,29 @@ export default function Home() {
 
   const debouncedQuery = useDebounce(query, 300);
 
+  const fetchData = async () => {
+    try {
+      const data = await fetchMovies(debouncedQuery);
+
+      if (data.length > 0) {
+        setLoading(true);
+        setOMDbMovies(data);
+        setOmbdVisible(true);
+      }
+    } catch (err) {
+      setOMDbMovies([]);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 350);
+    }
+  };
+
   useEffect(() => {
     if (!debouncedQuery) {
       setOMDbMovies([]);
       return;
     }
-
-    const fetchData = async () => {
-      setLoading(true);
-
-      try {
-        const data = await fetchMovies(debouncedQuery);
-        setOmbdVisible(true);
-        setOMDbMovies(data);
-      } catch (err) {
-        setOMDbMovies([]);
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchData();
   }, [debouncedQuery]);
@@ -93,12 +99,25 @@ export default function Home() {
 
   const handleCloseMovieModal = () => {
     setSelectedMovieVisible(false);
-    // setSelectedMovie(null);
   };
 
   return (
     <main>
-      <Navbar value={query} onChange={handleOnChange} onAddMovie={() => {}} />
+      <Navbar
+        value={query}
+        onChange={handleOnChange}
+        onAddMovie={() => {}}
+        onFocus={() => {
+          if (query && !omdbVisible) {
+            fetchData();
+          }
+        }}
+      />
+      <LogoButton className="fixed bottom-0 left-0 w-1/2">
+        <WCGMovieIcon />
+      </LogoButton>
+
+      {/* <h1 className="text-5xl font-bold text-white">WCG</h1> */}
       <div className="h-full w-full">
         <div className="content-container">
           <OMDbDropdown
@@ -106,6 +125,7 @@ export default function Home() {
             isLoading={loading}
             data={OMDbMovies}
             onClick={(movie) => handleOpenMovieModal(movie)}
+            onClose={() => setOmbdVisible(false)}
           />
         </div>
       </div>

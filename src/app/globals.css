@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply h-full;
+    @apply h-full bg-[#142650];
   }
 
   .content-container {
@@ -33,7 +33,11 @@
     @apply mx-5 min-h-11 w-full max-w-xl appearance-none rounded border-none bg-white py-1.5 pl-2 outline-none;
   }
 
-  .omdb-wrapper {
+  .omdb-container {
+    @apply fixed h-full w-full;
+  }
+
+  .omdb-content {
     @apply absolute left-0 right-3.5 top-[-6px] m-auto w-full max-w-xl rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-opacity duration-300;
   }
 
@@ -74,11 +78,14 @@
   }
 }
 
-/* HTML: <div class="loader"></div> */
-.loader {
-  @apply aspect-[1] w-4 rounded-full;
-  animation: l5 1s infinite linear alternate;
+@layer utilities {
+  .loader {
+    @apply aspect-[1] w-4 rounded-full;
+    animation: l5 1s infinite linear alternate;
+  }
 }
+
+/* HTML: <div class="loader"></div> */
 
 @keyframes l5 {
   0% {

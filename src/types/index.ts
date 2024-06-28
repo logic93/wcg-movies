@@ -23,6 +23,7 @@ export interface NavbarProps {
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onAddMovie: () => void;
+  onFocus: () => void;
 }
 
 export interface ModalProps {
@@ -33,7 +34,7 @@ export interface ModalProps {
 
 export interface LogoButtonProps {
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
   children: React.ReactNode;
 }
 
@@ -42,6 +43,7 @@ export interface OMDBbDropdownProps {
   isLoading?: boolean;
   data: MovieSearchProps[];
   onClick: (item: MovieSearchProps) => void;
+  onClose: () => void;
 }
 
 export interface MovieContentProps {
