@@ -39,6 +39,13 @@ export interface LogoButtonProps {
 
 export interface OMDBbDropdownProps {
   isVisible?: boolean;
+  isLoading?: boolean;
   data: MovieSearchProps[];
   onClick: (item: MovieSearchProps) => void;
+}
+
+export interface MovieContentProps {
+  selectedMovie: MovieProps | null;
+  isBookmarked: boolean;
+  onSaveMovie: (item: MovieProps) => void;
 }

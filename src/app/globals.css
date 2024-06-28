@@ -34,7 +34,7 @@
   }
 
   .omdb-wrapper {
-    @apply absolute left-0 right-3.5 top-[-6px] m-auto w-full max-w-xl rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-all duration-300;
+    @apply absolute left-0 right-3.5 top-[-6px] m-auto w-full max-w-xl rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-opacity duration-300;
   }
 
   .omdb-list {
@@ -54,49 +54,55 @@
   }
 
   .modal {
-    @apply fixed inset-0 z-10 hidden overflow-auto bg-black bg-opacity-50 opacity-0 transition-opacity duration-300;
+    @apply pointer-events-none fixed inset-0 z-10 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300;
+  }
+
+  .modal-content-wrapper {
+    @apply flex h-full items-center;
+  }
+
+  .modal-content {
+    @apply relative mx-auto max-w-xl rounded bg-white p-4 drop-shadow;
   }
 
   .show {
-    @apply block opacity-100;
+    @apply pointer-events-auto opacity-100;
   }
 
-  .modalContent {
-    @apply relative mx-auto mt-24 w-4/5 max-w-xl rounded-lg bg-white p-5 shadow-lg;
+  .hide {
+    @apply pointer-events-none opacity-0;
   }
 }
 
 /* HTML: <div class="loader"></div> */
 .loader {
-  width: 15px;
-  aspect-ratio: 1;
-  border-radius: 50%;
+  @apply aspect-[1] w-4 rounded-full;
   animation: l5 1s infinite linear alternate;
 }
 
 @keyframes l5 {
   0% {
     box-shadow:
-      20px 0 #000,
-      -20px 0 #0002;
-    background: #000;
+      1.25rem 0 #ffffff,
+      -1.25rem 0 #ffffff33;
+    background: #ffffff;
   }
   33% {
     box-shadow:
-      20px 0 #000,
-      -20px 0 #0002;
-    background: #0002;
+      1.25rem 0 #ffffff,
+      -1.25rem 0 #ffffff33;
+    background: #ffffff33;
   }
   66% {
     box-shadow:
-      20px 0 #0002,
-      -20px 0 #000;
-    background: #0002;
+      1.25rem 0 #ffffff33,
+      -1.25rem 0 #ffffff;
+    background: #ffffff33;
   }
   100% {
     box-shadow:
-      20px 0 #0002,
-      -20px 0 #000;
-    background: #000;
+      1.25rem 0 #ffffff33,
+      -1.25rem 0 #ffffff;
+    background: #ffffff;
   }
 }
