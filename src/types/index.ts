@@ -20,10 +20,13 @@ export interface MovieProps {
 }
 
 export interface NavbarProps {
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  onAddMovie: () => void;
-  onFocus: () => void;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onAddMovie?: () => void;
+  onDeleteAll?: () => void;
+  onFocus?: () => void;
+  isMainPage?: boolean;
+  showDelete?: boolean;
 }
 
 export interface ModalProps {

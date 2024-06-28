@@ -1,5 +1,6 @@
 "use client";
 
+import { Navbar } from "@/components/Navbar";
 import { MovieProps } from "@/types";
 import { LOCAL_STORAGE_MOVIES } from "@/utils/constants";
 import { useState } from "react";
@@ -9,18 +10,22 @@ export default function List() {
     typeof window !== "undefined" &&
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_MOVIES) || "[]");
 
-  const [movies, setMovies] = useState<MovieProps[] | null>(storedMovies);
+  const [movies, setMovies] = useState<MovieProps[]>(storedMovies);
 
   return (
     <>
-      {/* <button
-        onClick={() => {
-          localStorage.clear();
-          setMovies([]);
+      <Navbar
+        onAddMovie={() => {}}
+        isMainPage={false}
+        showDelete
+        onDeleteAll={() => {
+          if (movies?.length > 0) {
+            localStorage.clear();
+            setMovies([]);
+            console.log("delete");
+          }
         }}
-      >
-        Delete all
-      </button> */}
+      />
 
       <div className="mx-auto h-full max-w-7xl">
         <div className="flex h-full w-full items-center justify-center">
