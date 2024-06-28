@@ -76,6 +76,10 @@
   .hide {
     @apply pointer-events-none opacity-0;
   }
+
+  .custom-input {
+    @apply min-h-11 w-full appearance-none rounded border-none bg-white py-1.5 pl-2 text-black outline-none;
+  }
 }
 
 @layer utilities {

@@ -19,6 +19,13 @@ export interface MovieProps {
   imdbID: string;
 }
 
+export interface CustomMovie {
+  Title: string;
+  Year: string;
+  Poster: string;
+  Plot: string;
+}
+
 export interface NavbarProps {
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -33,6 +40,7 @@ export interface ModalProps {
   isVisible: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  contentClassName?: string;
 }
 
 export interface LogoButtonProps {

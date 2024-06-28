@@ -7,7 +7,10 @@ export function Modal(props: ModalProps) {
       onClick={props.onClose}
     >
       <div className="modal-content-wrapper">
-        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className={`modal-content ${props.contentClassName ? props.contentClassName : ""}`}
+          onClick={(e) => e.stopPropagation()}
+        >
           {props.children}
         </div>
       </div>

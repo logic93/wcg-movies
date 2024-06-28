@@ -28,7 +28,7 @@ export default function List() {
   const [selectedMovieVisible, setSelectedMovieVisible] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  const onHandleBookmark = (newMovie: MovieProps) => {
+  const onStoreMovie = (newMovie: MovieProps) => {
     if (!doesMovieExist(newMovie, storedMovies)) {
       bookmarkMovie(storedMovies, newMovie, setIsBookmarked);
       setMyMovies(storedMovies);
@@ -45,15 +45,13 @@ export default function List() {
   return (
     <>
       <Navbar
-        onAddMovie={() => {}}
         isMainPage={false}
         showDelete
         onDeleteAll={() => {
-          // if (movies?.length > 0) {
-          //   localStorage.clear();
-          //   setMyMovies([]);
-          //   console.log("delete");
-          // }
+          if (myMovies && myMovies?.length > 0) {
+            localStorage.clear();
+            setMyMovies([]);
+          }
         }}
       />
 
@@ -63,6 +61,7 @@ export default function List() {
             {myMovies?.map((movie, index) => (
               <li key={index} className="relative flex flex-col items-center">
                 <button
+                  className="relative h-full overflow-hidden outline-none"
                   onClick={() => {
                     toggleBookmark(
                       movie,
@@ -72,7 +71,6 @@ export default function List() {
                       setSelectedMovieVisible,
                     );
                   }}
-                  className="relative h-full overflow-hidden focus:outline-none"
                 >
                   <img
                     src={movie?.Poster}
@@ -96,7 +94,7 @@ export default function List() {
         <MovieContent
           selectedMovie={selectedMovie}
           isBookmarked={isBookmarked}
-          onBookmark={onHandleBookmark}
+          onBookmark={onStoreMovie}
         />
       </Modal>
     </>

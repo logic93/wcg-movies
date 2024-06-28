@@ -39,12 +39,14 @@ export function Navbar({
               </Link>
             )}
 
-            <LogoButton onClick={onAddMovie}>
-              <AddIcon />
-            </LogoButton>
+            {onAddMovie && (
+              <LogoButton onClick={onAddMovie}>
+                <AddIcon />
+              </LogoButton>
+            )}
 
             {showDelete && (
-              <LogoButton className="ml-4" onClick={onDeleteAll}>
+              <LogoButton onClick={onDeleteAll}>
                 <TrashIcon />
               </LogoButton>
             )}

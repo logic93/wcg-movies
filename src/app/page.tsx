@@ -74,11 +74,10 @@ export default function Home() {
   };
 
   return (
-    <main>
+    <>
       <Navbar
         value={query}
         onChange={handleOnChange}
-        onAddMovie={() => {}}
         onFocus={() => {
           if (query && !omdbVisible) {
             fetchData();
@@ -121,6 +120,6 @@ export default function Home() {
           onBookmark={handleOnBookmark}
         />
       </Modal>
-    </main>
+    </>
   );
 }
