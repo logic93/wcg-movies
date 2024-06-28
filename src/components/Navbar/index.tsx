@@ -5,7 +5,7 @@ import Link from "next/link";
 import { LogoButton } from "../Buttons/LogoButton";
 import { AddIcon } from "../Icons/AddIcon";
 import { ListIcon } from "../Icons/ListIcon";
-import { OrangeIcon } from "../Icons/OrangeIcon";
+import { MovieIcon } from "../Icons/MovieIcon";
 
 export function Navbar(props: NavbarProps) {
   return (
@@ -14,7 +14,7 @@ export function Navbar(props: NavbarProps) {
         <div className="nav-wrapper">
           <div className="nav-content">
             <Link href="/">
-              <OrangeIcon />
+              <MovieIcon />
             </Link>
 
             <input

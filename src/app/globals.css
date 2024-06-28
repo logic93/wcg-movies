@@ -30,7 +30,7 @@
   }
 
   .search-input {
-    @apply bg-white min-h-9	w-full outline-none border-none appearance-none pl-2 py-1.5	rounded mx-2;
+    @apply bg-white min-h-9	w-full outline-none border-none appearance-none pl-2 py-1.5	rounded mx-4;
   }
 
   .omdb-wrapper {
