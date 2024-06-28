@@ -36,3 +36,9 @@ export interface LogoButtonProps {
   onClick: () => void;
   children: React.ReactNode;
 }
+
+export interface OMDBbDropdownProps {
+  isVisible?: boolean;
+  data: MovieSearchProps[];
+  onClick: (item: MovieSearchProps) => void;
+}

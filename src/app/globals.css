@@ -8,21 +8,21 @@
   }
 
   .content-container {
-    @apply max-w-7xl m-auto relative;
+    @apply relative;
   }
 }
 
 @layer components {
   .nav {
-    @apply bg-zinc-900 drop-shadow w-full h-14 px-2;
+    @apply h-16 w-full bg-[#121212] px-2 drop-shadow;
   }
 
   .nav-wrapper {
-    @apply max-w-7xl m-auto h-full;
+    @apply m-auto h-full max-w-7xl;
   }
 
   .nav-content {
-    @apply flex items-center h-full;
+    @apply flex h-full items-center justify-center;
   }
 
   .nav-buttons {
@@ -30,19 +30,19 @@
   }
 
   .search-input {
-    @apply bg-white min-h-9	w-full outline-none border-none appearance-none pl-2 py-1.5	rounded mx-4;
+    @apply mx-5 min-h-11 w-full max-w-xl appearance-none rounded border-none bg-white py-1.5 pl-2 outline-none;
   }
 
   .omdb-wrapper {
-    @apply bg-white drop-shadow absolute w-2/5 m-auto left-0 right-0;
+    @apply absolute left-0 right-3.5 top-[-6px] m-auto w-full max-w-xl rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-all duration-300;
   }
 
   .omdb-list {
-    @apply flex flex-col p-4;
+    @apply flex flex-col divide-y divide-slate-200;
   }
 
   .omdb-item {
-    @apply flex flex-row justify-between items-center;
+    @apply flex flex-row items-center justify-between;
   }
 
   .omdb-info {
@@ -50,11 +50,11 @@
   }
 
   .omdb-button {
-    @apply mb-3;
+    @apply max-h-20 p-2 hover:bg-[#313131];
   }
 
   .modal {
-    @apply hidden fixed inset-0 overflow-auto opacity-0 z-10 bg-black bg-opacity-50 transition-opacity duration-300;
+    @apply fixed inset-0 z-10 hidden overflow-auto bg-black bg-opacity-50 opacity-0 transition-opacity duration-300;
   }
 
   .show {
@@ -62,7 +62,7 @@
   }
 
   .modalContent {
-    @apply bg-white p-5 w-4/5 max-w-xl mx-auto mt-24 rounded-lg shadow-lg relative;
+    @apply relative mx-auto mt-24 w-4/5 max-w-xl rounded-lg bg-white p-5 shadow-lg;
   }
 }
 

@@ -40,6 +40,8 @@ export async function fetchMovies(query: string) {
       if (data && typeof data === "object") {
         return [data];
       }
+    } else {
+      return [];
     }
   } catch (error) {
     console.log(error);

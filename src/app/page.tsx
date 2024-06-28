@@ -2,6 +2,7 @@
 
 import { fetchMovieByID, fetchMovies } from "@/api";
 import { LogoButton } from "@/components/Buttons/LogoButton";
+import OMDbDropdown from "@/components/Dropdowns/OMDbDropdown";
 import { BookmarkIcon } from "@/components/Icons/BookmarkIcon";
 import Modal from "@/components/Modals";
 import { Navbar } from "@/components/Navbar";
@@ -20,28 +21,38 @@ export default function Home() {
 
   const [error, setError] = useState<string | null>(null);
   const [isMovieModalVisible, setIsMovieModalVisible] = useState(false);
+  const [isOMDbDropdownVisible, setIsOMDbDropdownVisible] = useState(false);
 
   const debouncedQuery = useDebounce(query, 300);
+
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await fetchMovies(debouncedQuery);
+
+      if (data.length > 0) {
+        setOMDbMovies(data);
+        setIsOMDbDropdownVisible(true);
+        console.log(data);
+      } else {
+        setOMDbMovies([]);
+        setIsOMDbDropdownVisible(false);
+      }
+      // setIsOMDbDropdownVisible(!isOMDbDropdownVisible);
+    } catch (err) {
+      setError("Failed to fetch movie data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!debouncedQuery) {
       setOMDbMovies([]);
       return;
     }
-
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const data = await fetchMovies(debouncedQuery);
-        setOMDbMovies(data);
-      } catch (err) {
-        setError("Failed to fetch movie data");
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchData();
   }, [debouncedQuery]);
@@ -67,7 +78,7 @@ export default function Home() {
       setIsSaved(true);
     } else {
       const updatedMovies = storedMovies.filter(
-        (movie: MovieProps) => movie.imdbID !== newMovie.imdbID
+        (movie: MovieProps) => movie.imdbID !== newMovie.imdbID,
       );
       localStorage.setItem(LOCAL_STORAGE_MOVIES, JSON.stringify(updatedMovies));
       setIsSaved(false);
@@ -75,6 +86,9 @@ export default function Home() {
   };
 
   const handleOpenMovieModal = async (movie: MovieSearchProps) => {
+    setOMDbMovies([]);
+    setIsOMDbDropdownVisible(false);
+
     setIsMovieModalVisible(!isMovieModalVisible);
 
     const fetchedMovie = await fetchMovieByID(movie.imdbID);
@@ -90,42 +104,19 @@ export default function Home() {
   return (
     <main>
       <Navbar value={query} onChange={handleOnChange} onAddMovie={() => {}} />
-      <div className="w-full h-full">
+      <div className="h-full w-full">
         <div className="content-container">
-          {OMDbMovies && OMDbMovies.length > 0 && (
-            <div className="omdb-wrapper">
-              <ul className="omdb-list">
-                {OMDbMovies.map((movie, index) => (
-                  <button
-                    key={index}
-                    className="omdb-button"
-                    onClick={() => handleOpenMovieModal(movie)}
-                  >
-                    <li className="omdb-item">
-                      <div className="omdb-info">
-                        <img
-                          src={movie?.Poster}
-                          width={50}
-                          height={75}
-                          alt={`${movie.Title} Poster`}
-                        />
-                        <h2 className="ml-2 font-bold">
-                          {movie.Title} ({movie.Year})
-                        </h2>
-                      </div>
-                      <div></div>
-                    </li>
-                  </button>
-                ))}
-              </ul>
-            </div>
-          )}
+          <OMDbDropdown
+            isVisible={isOMDbDropdownVisible}
+            data={OMDbMovies}
+            onClick={(movie) => handleOpenMovieModal(movie)}
+          />
 
-          {loading && (
-            <div className="flex justify-center mt-96">
+          {/* {loading && (
+            <div className="mt-96 flex justify-center">
               <div className="loader"></div>
             </div>
-          )}
+          )} */}
           {error && <p>{error}</p>}
         </div>
       </div>
@@ -134,8 +125,8 @@ export default function Home() {
         isVisible={isMovieModalVisible}
         onClose={() => setIsMovieModalVisible(!isMovieModalVisible)}
       >
-        <div className="flex flex-col relative">
-          <h1 className="text-4xl font-bold w-full">{selectedMovie?.Title}</h1>
+        <div className="relative flex flex-col">
+          <h1 className="w-full text-4xl font-bold">{selectedMovie?.Title}</h1>
           <span className="capitalize">
             {selectedMovie?.Type} ∙ {selectedMovie?.Year}
           </span>
