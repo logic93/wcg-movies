@@ -4,6 +4,8 @@ import { CloseIcon } from "@/components/Icons/CloseIcon";
 import { MovieContentProps } from "@/types";
 import Image from "next/image";
 
+import PosterPlaceholder from "@/app/assets/images/poster-placeholder.png";
+
 export default function MovieContent(props: MovieContentProps) {
   if (props.selectedMovie) {
     return (
@@ -31,16 +33,16 @@ export default function MovieContent(props: MovieContentProps) {
         </div>
 
         <div className="mt-4 flex flex-row">
-          {props.selectedMovie?.Poster && (
-            <div className="mr-4">
-              <Image
-                src={props.selectedMovie?.Poster || ""}
-                width={278}
-                height={417}
-                alt={`${props.selectedMovie?.Title} Poster`}
-              />
-            </div>
-          )}
+          <div className="mr-4">
+            <Image
+              src={props.selectedMovie?.Poster || PosterPlaceholder}
+              width={278}
+              height={417}
+              priority
+              alt={`${props.selectedMovie?.Title} Poster`}
+              className="h-auto w-auto"
+            />
+          </div>
 
           <div className="flex min-w-80 max-w-xl flex-col gap-4">
             {props.selectedMovie?.Plot && (

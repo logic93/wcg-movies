@@ -3,11 +3,13 @@ import { MovieProps, MovieSearchProps } from "@/types";
 import { LOCAL_STORAGE_MOVIES } from "./constants";
 
 export const doesMovieExist = (
-  storedMovie: MovieProps,
+  storedMovie: MovieProps | null,
   storedMovies: MovieProps[],
 ) => {
   return storedMovies.some((movie: MovieProps) => {
-    return movie.imdbID === storedMovie.imdbID;
+    return movie.imdbID
+      ? movie.imdbID === storedMovie?.imdbID
+      : movie.Title === storedMovie?.Title;
   });
 };
 
@@ -26,9 +28,12 @@ export const unBookmarkMovie = (
   newMovie: MovieProps,
   setIsBookmarked: (_: boolean) => void,
 ) => {
-  const updatedMovies = storedMovies.filter(
-    (movie: MovieProps) => movie.imdbID !== newMovie.imdbID,
+  const updatedMovies = storedMovies.filter((movie: MovieProps) =>
+    movie.imdbID
+      ? movie.imdbID !== newMovie.imdbID
+      : movie.Title !== newMovie.Title,
   );
+
   localStorage.setItem(LOCAL_STORAGE_MOVIES, JSON.stringify(updatedMovies));
   setIsBookmarked(false);
 
@@ -43,7 +48,6 @@ export const fetchMovie = async (
   setSelectedMovieVisible: (_: boolean) => void,
 ) => {
   const fetchedMovie = await fetchMovieByID(movie.imdbID);
-
   setSelectedMovie({ ...fetchedMovie, imdbID: movie.imdbID });
 
   if (doesMovieExist(fetchedMovie, storedMovies)) {

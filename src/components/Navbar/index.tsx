@@ -9,18 +9,21 @@ import WCGIcon from "../Icons/WCGIcon";
 export function Navbar({
   value,
   onChange,
-  onAddMovie,
   onDeleteAll,
   onFocus,
   showDelete = false,
   isMainPage = true,
-  disabled,
+  disabled = false,
+  navContentClassName,
+  onAddMovie,
 }: NavbarProps) {
   return (
     <div className="nav">
       <div className="nav-wrapper">
-        <div className="nav-content">
-          <Link href="/">
+        <div
+          className={`nav-content ${navContentClassName ? navContentClassName : ""}`}
+        >
+          <Link href="/" scroll={false}>
             <WCGIcon />
           </Link>
 
@@ -35,13 +38,13 @@ export function Navbar({
 
           <div className="nav-buttons">
             {isMainPage && (
-              <Link href="/list">
+              <Link href="/list" scroll={false}>
                 <ListIcon />
               </Link>
             )}
 
             {onAddMovie && (
-              <LogoButton onClick={onAddMovie}>
+              <LogoButton className="mr-3" onClick={onAddMovie}>
                 <AddIcon />
               </LogoButton>
             )}

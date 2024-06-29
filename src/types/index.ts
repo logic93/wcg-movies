@@ -11,12 +11,12 @@ export interface MovieProps {
   Poster: string;
   Type: string;
   Plot: string;
-  imdbRating: string;
-  Director: string;
-  Actors: string;
-  Language: string;
-  Country: string;
-  imdbID: string;
+  imdbRating?: string;
+  Director?: string;
+  Actors?: string;
+  Language?: string;
+  Country?: string;
+  imdbID?: string;
 }
 
 export interface CustomMovie {
@@ -35,6 +35,7 @@ export interface NavbarProps {
   isMainPage?: boolean;
   showDelete?: boolean;
   disabled?: boolean;
+  navContentClassName?: string;
 }
 
 export interface ModalProps {
@@ -46,7 +47,7 @@ export interface ModalProps {
 
 export interface LogoButtonProps {
   className?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
   disabled?: boolean;
 }

@@ -54,7 +54,7 @@
   }
 
   .omdb-button {
-    @apply min-h-[40px] hover:bg-[#313131];
+    @apply hover:bg-[#313131];
   }
 
   .modal {

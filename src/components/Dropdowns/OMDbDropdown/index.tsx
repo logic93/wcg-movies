@@ -27,7 +27,8 @@ export default function OMDbDropdown(props: OMDBbDropdownProps) {
                         width={40}
                         height={60}
                         alt={`${item.Title} Poster`}
-                        className="h-full object-cover"
+                        priority
+                        className="h-auto w-auto object-cover"
                       />
                     </div>
 

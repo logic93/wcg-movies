@@ -9,10 +9,11 @@ import {
   bookmarkMovie,
   doesMovieExist,
   fetchMovie,
+  isValidUrl,
   unBookmarkMovie,
 } from "@/utils/helper-functions";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import PosterPlaceholder from "@/app/assets/images/poster-placeholder.png";
 import { LogoButton } from "@/components/Buttons/LogoButton";
@@ -23,12 +24,28 @@ export default function List() {
     typeof window !== "undefined" &&
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_MOVIES) || "[]");
 
-  const [myMovies, setMyMovies] = useState<MovieProps[] | null>(storedMovies);
+  const defaultCustomMovieProps = {
+    Title: "",
+    Year: "",
+    Type: "",
+    Poster: "",
+    Plot: "",
+  };
 
+  const [myMovies, setMyMovies] = useState<MovieProps[] | null>([]);
   const [selectedMovie, setSelectedMovie] = useState<MovieProps | null>(null);
   const [selectedMovieVisible, setSelectedMovieVisible] = useState(false);
   const [deleteAllModalVisible, setDeleteAllModalVisible] = useState(false);
+  const [customMovieModalVisible, setCustomMovieModalVisible] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [customMovieAlreadyExist, setCustomMovieAlreadyExist] = useState(false);
+  const [customMovie, setCustomMovie] = useState<MovieProps>(
+    defaultCustomMovieProps,
+  );
+
+  useEffect(() => {
+    setMyMovies(storedMovies);
+  }, []);
 
   const onStoreMovie = (newMovie: MovieProps) => {
     if (!doesMovieExist(newMovie, storedMovies)) {
@@ -40,6 +57,7 @@ export default function List() {
         newMovie,
         setIsBookmarked,
       );
+
       setMyMovies(updatedMovies);
     }
   };
@@ -52,45 +70,103 @@ export default function List() {
     }
   };
 
+  const handleOnChangeCustomMovie = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+
+    setCustomMovie((prevMovie) => ({
+      ...prevMovie,
+      [name]: value,
+    }));
+
+    if (customMovieAlreadyExist) {
+      setCustomMovieAlreadyExist(false);
+    }
+  };
+
+  const handleOnSaveCustomMovie = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    if (!doesMovieExist(customMovie, storedMovies)) {
+      const updatedCustomMovie = {
+        ...customMovie,
+        Title: customMovie.Title.trim() || "N/A",
+        Plot: customMovie.Plot.trim() || "N/A",
+        Year: customMovie.Year.trim() || "N/A",
+        Type: customMovie.Type.trim() || "N/A",
+        Poster: isValidUrl(customMovie?.Poster) ? customMovie?.Poster : "",
+      };
+
+      bookmarkMovie(storedMovies, updatedCustomMovie, setIsBookmarked);
+      setMyMovies(storedMovies);
+      setCustomMovieModalVisible(false);
+    } else {
+      setCustomMovieAlreadyExist(true);
+    }
+  };
+
   return (
     <>
       <Navbar
         isMainPage={false}
+        navContentClassName="justify-between px-4"
         showDelete
-        disabled={!storedMovies.length}
+        disabled={!myMovies?.length}
+        onAddMovie={() => {
+          setCustomMovie(defaultCustomMovieProps);
+          setCustomMovieAlreadyExist(false);
+          setCustomMovieModalVisible(true);
+        }}
         onDeleteAll={() => setDeleteAllModalVisible(true)}
       />
 
       <div className="mx-auto h-full max-w-7xl">
         <div className="flex h-full w-full items-center justify-center">
-          <ul className="grid w-full grid-cols-2 gap-4 overflow-y-auto py-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {myMovies?.map((movie, index) => (
-              <li key={index} className="relative flex flex-col items-center">
-                <button
-                  className="relative h-full overflow-hidden outline-none"
-                  onClick={() => {
-                    fetchMovie(
-                      movie,
-                      storedMovies,
-                      setSelectedMovie,
-                      setIsBookmarked,
-                      setSelectedMovieVisible,
-                    );
-                  }}
-                >
-                  <Image
-                    width={278}
-                    height={417}
-                    src={movie?.Poster || PosterPlaceholder}
-                    alt={`${movie?.Title} Poster`}
-                    className="h-full w-[200px] transform object-cover transition-transform duration-300 hover:scale-125"
-                  />
-                  <h1 className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 py-1 text-center text-white">
-                    {movie?.Title} ({movie?.Year})
-                  </h1>
-                </button>
-              </li>
-            ))}
+          <ul className="grid w-full grid-cols-2 gap-4 overflow-y-auto p-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {myMovies &&
+              myMovies?.length > 0 &&
+              myMovies?.map((movie, index) => (
+                <li key={index} className="relative flex flex-col items-center">
+                  <button
+                    className="relative h-full overflow-hidden outline-none"
+                    onClick={() => {
+                      if (movie.imdbID) {
+                        fetchMovie(
+                          movie,
+                          storedMovies,
+                          setSelectedMovie,
+                          setIsBookmarked,
+                          setSelectedMovieVisible,
+                        );
+                      } else {
+                        setSelectedMovie(movie);
+
+                        if (doesMovieExist(movie, storedMovies)) {
+                          setIsBookmarked(true);
+                        } else {
+                          setIsBookmarked(false);
+                        }
+
+                        setSelectedMovieVisible(true);
+                      }
+                    }}
+                  >
+                    <Image
+                      width={278}
+                      height={417}
+                      src={movie?.Poster || PosterPlaceholder}
+                      alt={`${movie?.Title} Poster`}
+                      priority
+                      className="h-full w-auto transform object-cover transition-transform duration-300 hover:scale-125"
+                    />
+
+                    <h1 className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 py-1 text-center text-white">
+                      {movie?.Title} ({movie?.Year})
+                    </h1>
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
@@ -133,6 +209,124 @@ export default function List() {
             Delete
           </button>
         </div>
+      </Modal>
+
+      <Modal
+        contentClassName="bg-[#1F1F1F] max-w-2xl w-full"
+        isVisible={customMovieModalVisible}
+        onClose={() => setCustomMovieModalVisible(false)}
+      >
+        <form onSubmit={handleOnSaveCustomMovie} className="">
+          <LogoButton
+            className="absolute right-[1rem] top-[1rem]"
+            onClick={(e) => {
+              e.preventDefault();
+              setCustomMovieModalVisible(false);
+            }}
+          >
+            <CloseIcon fill="white" />
+          </LogoButton>
+
+          <h1 className="w-[90%] text-4xl font-bold text-white">
+            Add new movie
+          </h1>
+
+          <div className="mt-2 flex flex-row text-white">
+            <div className="mr-4 flex flex-1 flex-col">
+              <p>Image</p>
+              <Image
+                width={278}
+                height={417}
+                src={
+                  isValidUrl(customMovie?.Poster)
+                    ? customMovie?.Poster
+                    : PosterPlaceholder
+                }
+                className="h-auto w-auto object-cover"
+                priority
+                alt="Poster"
+                onError={(err) => {
+                  if (err) {
+                    setCustomMovie({ ...customMovie, Poster: "" });
+                  }
+                }}
+              />
+            </div>
+
+            <div className="flex flex-1 flex-col justify-between gap-4">
+              <div>
+                <label htmlFor="Title">Title</label>
+                <input
+                  required
+                  name="Title"
+                  onChange={handleOnChangeCustomMovie}
+                  value={customMovie.Title}
+                  className="custom-input"
+                  type="text"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="Plot">Plot</label>
+                <textarea
+                  required
+                  name="Plot"
+                  onChange={handleOnChangeCustomMovie}
+                  value={customMovie.Plot}
+                  className="custom-input min-h-24"
+                ></textarea>
+              </div>
+
+              <div>
+                <label htmlFor="Year">Year</label>
+                <input
+                  required
+                  name="Year"
+                  onChange={handleOnChangeCustomMovie}
+                  value={customMovie.Year}
+                  className="custom-input"
+                  type="text"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="Type">Type</label>
+                <input
+                  required
+                  name="Type"
+                  onChange={handleOnChangeCustomMovie}
+                  value={customMovie.Type}
+                  className="custom-input"
+                  type="text"
+                  placeholder="Movie/Series"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="Poster">Poster</label>
+                <input
+                  name="Poster"
+                  onChange={handleOnChangeCustomMovie}
+                  value={customMovie.Poster}
+                  className="custom-input"
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex w-full flex-row justify-end">
+            <button
+              disabled={customMovieAlreadyExist}
+              type="submit"
+              className={`min-h-11 rounded px-4 font-bold outline-none ${customMovieAlreadyExist ? "bg-transparent px-0 text-white" : "bg-white"}`}
+            >
+              {customMovieAlreadyExist
+                ? "Movie exist already. Please choose another title."
+                : "Save"}
+            </button>
+          </div>
+        </form>
       </Modal>
     </>
   );
