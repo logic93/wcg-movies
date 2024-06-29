@@ -14,6 +14,7 @@ export function Navbar({
   onFocus,
   showDelete = false,
   isMainPage = true,
+  disabled,
 }: NavbarProps) {
   return (
     <div className="nav">
@@ -46,8 +47,8 @@ export function Navbar({
             )}
 
             {showDelete && (
-              <LogoButton onClick={onDeleteAll}>
-                <TrashIcon />
+              <LogoButton disabled={disabled} onClick={onDeleteAll}>
+                <TrashIcon stroke={disabled ? "#6b7280" : "white"} />
               </LogoButton>
             )}
           </div>

@@ -34,6 +34,7 @@ export interface NavbarProps {
   onFocus?: () => void;
   isMainPage?: boolean;
   showDelete?: boolean;
+  disabled?: boolean;
 }
 
 export interface ModalProps {
@@ -47,6 +48,7 @@ export interface LogoButtonProps {
   className?: string;
   onClick?: () => void;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
 export interface OMDBbDropdownProps {

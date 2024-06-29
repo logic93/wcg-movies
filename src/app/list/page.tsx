@@ -12,23 +12,22 @@ import {
   unBookmarkMovie,
 } from "@/utils/helper-functions";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import PosterPlaceholder from "@/app/assets/images/poster-placeholder.png";
+import { LogoButton } from "@/components/Buttons/LogoButton";
+import { CloseIcon } from "@/components/Icons/CloseIcon";
 
 export default function List() {
   const storedMovies =
     typeof window !== "undefined" &&
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_MOVIES) || "[]");
 
-  const [myMovies, setMyMovies] = useState<MovieProps[] | null>([]);
-
-  useEffect(() => {
-    setMyMovies(storedMovies);
-  }, []);
+  const [myMovies, setMyMovies] = useState<MovieProps[] | null>(storedMovies);
 
   const [selectedMovie, setSelectedMovie] = useState<MovieProps | null>(null);
   const [selectedMovieVisible, setSelectedMovieVisible] = useState(false);
+  const [deleteAllModalVisible, setDeleteAllModalVisible] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const onStoreMovie = (newMovie: MovieProps) => {
@@ -45,17 +44,21 @@ export default function List() {
     }
   };
 
+  const handleOnDeleteAll = () => {
+    if (myMovies && myMovies?.length > 0) {
+      localStorage.clear();
+      setMyMovies([]);
+      setDeleteAllModalVisible(false);
+    }
+  };
+
   return (
     <>
       <Navbar
         isMainPage={false}
         showDelete
-        onDeleteAll={() => {
-          if (myMovies && myMovies?.length > 0) {
-            localStorage.clear();
-            setMyMovies([]);
-          }
-        }}
+        disabled={!storedMovies.length}
+        onDeleteAll={() => setDeleteAllModalVisible(true)}
       />
 
       <div className="mx-auto h-full max-w-7xl">
@@ -102,6 +105,34 @@ export default function List() {
           onBookmark={onStoreMovie}
           onClose={() => setSelectedMovieVisible(false)}
         />
+      </Modal>
+
+      <Modal
+        isVisible={deleteAllModalVisible}
+        onClose={() => setDeleteAllModalVisible(false)}
+      >
+        <div className="flex flex-col items-center justify-center text-center">
+          <LogoButton
+            className="absolute right-1 top-1"
+            onClick={() => setDeleteAllModalVisible(false)}
+          >
+            <CloseIcon width="16" height="16" />
+          </LogoButton>
+
+          <h1 className="text-2xl font-bold">Delete</h1>
+          <p className="mt-1">Are you sure?</p>
+          <p>
+            This will remove all movies <br />
+            from your list.
+          </p>
+
+          <button
+            className="mt-8 min-h-11 rounded bg-black px-4 font-bold text-white outline-none"
+            onClick={handleOnDeleteAll}
+          >
+            Delete
+          </button>
+        </div>
       </Modal>
     </>
   );
