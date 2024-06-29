@@ -61,4 +61,5 @@ export interface MovieContentProps {
   selectedMovie: MovieProps | null;
   isBookmarked: boolean;
   onBookmark: (item: MovieProps) => void;
+  onClose: () => void;
 }

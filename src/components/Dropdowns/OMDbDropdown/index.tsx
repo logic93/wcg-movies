@@ -1,4 +1,7 @@
 import { OMDBbDropdownProps } from "@/types";
+import Image from "next/image";
+
+import PosterPlaceholder from "@/app/assets/images/poster-placeholder.png";
 
 export default function OMDbDropdown(props: OMDBbDropdownProps) {
   return (
@@ -18,17 +21,21 @@ export default function OMDbDropdown(props: OMDBbDropdownProps) {
               >
                 <li className="omdb-item">
                   <div className="omdb-info">
-                    <img
-                      src={item?.Poster}
-                      width={40}
-                      height={60}
-                      alt={`${item.Title} Poster`}
-                    />
-                    <h2 className="ml-2 font-bold">
-                      {item.Title} ({item.Year})
-                    </h2>
+                    <div className="h-full">
+                      <Image
+                        src={item?.Poster || PosterPlaceholder}
+                        width={40}
+                        height={60}
+                        alt={`${item.Title} Poster`}
+                        className="h-full object-cover"
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-start py-2 pl-3">
+                      <h1 className="font-bold">{item.Title}</h1>
+                      <p className="text-slate-400">{item.Year}</p>
+                    </div>
                   </div>
-                  <div></div>
                 </li>
               </button>
             ))}

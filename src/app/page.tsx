@@ -13,9 +13,9 @@ import { LOCAL_STORAGE_MOVIES } from "@/utils/constants";
 import {
   bookmarkMovie,
   doesMovieExist,
-  toggleBookmark,
+  fetchMovie,
   unBookmarkMovie,
-} from "@/utils/helperFunctions";
+} from "@/utils/helper-functions";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -48,7 +48,7 @@ export default function Home() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 350);
+      }, 300);
     }
   };
 
@@ -95,7 +95,7 @@ export default function Home() {
             isLoading={loading}
             data={OMDbMovies}
             onClick={(movie) => {
-              toggleBookmark(
+              fetchMovie(
                 movie,
                 storedMovies,
                 setSelectedMovie,
@@ -110,14 +110,13 @@ export default function Home() {
 
       <Modal
         isVisible={selectedMovieVisible}
-        onClose={() => {
-          setSelectedMovieVisible(false);
-        }}
+        onClose={() => setSelectedMovieVisible(false)}
       >
         <MovieContent
           selectedMovie={selectedMovie}
           isBookmarked={isBookmarked}
           onBookmark={handleOnBookmark}
+          onClose={() => setSelectedMovieVisible(false)}
         />
       </Modal>
     </>

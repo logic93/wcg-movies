@@ -8,10 +8,13 @@ import { LOCAL_STORAGE_MOVIES } from "@/utils/constants";
 import {
   bookmarkMovie,
   doesMovieExist,
-  toggleBookmark,
+  fetchMovie,
   unBookmarkMovie,
-} from "@/utils/helperFunctions";
+} from "@/utils/helper-functions";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+
+import PosterPlaceholder from "@/app/assets/images/poster-placeholder.png";
 
 export default function List() {
   const storedMovies =
@@ -63,7 +66,7 @@ export default function List() {
                 <button
                   className="relative h-full overflow-hidden outline-none"
                   onClick={() => {
-                    toggleBookmark(
+                    fetchMovie(
                       movie,
                       storedMovies,
                       setSelectedMovie,
@@ -72,8 +75,10 @@ export default function List() {
                     );
                   }}
                 >
-                  <img
-                    src={movie?.Poster}
+                  <Image
+                    width={278}
+                    height={417}
+                    src={movie?.Poster || PosterPlaceholder}
                     alt={`${movie?.Title} Poster`}
                     className="h-full w-[200px] transform object-cover transition-transform duration-300 hover:scale-125"
                   />
@@ -95,6 +100,7 @@ export default function List() {
           selectedMovie={selectedMovie}
           isBookmarked={isBookmarked}
           onBookmark={onStoreMovie}
+          onClose={() => setSelectedMovieVisible(false)}
         />
       </Modal>
     </>

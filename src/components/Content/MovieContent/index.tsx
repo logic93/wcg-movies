@@ -1,72 +1,98 @@
 import { LogoButton } from "@/components/Buttons/LogoButton";
 import { BookmarkIcon } from "@/components/Icons/BookmarkIcon";
+import { CloseIcon } from "@/components/Icons/CloseIcon";
 import { MovieContentProps } from "@/types";
+import Image from "next/image";
 
 export default function MovieContent(props: MovieContentProps) {
-  return (
-    <div className="relative flex flex-col">
-      <h1 className="w-full text-4xl font-bold">
-        {props.selectedMovie?.Title}
-      </h1>
-      <span className="capitalize">
-        {props.selectedMovie?.Type} ∙ {props.selectedMovie?.Year}
-      </span>
+  if (props.selectedMovie) {
+    return (
+      <div className="relative flex flex-col">
+        <LogoButton className="absolute right-0 top-0" onClick={props.onClose}>
+          <CloseIcon />
+        </LogoButton>
 
-      <LogoButton
-        className="absolute right-0 top-0"
-        onClick={() =>
-          props.selectedMovie && props.onBookmark(props.selectedMovie)
-        }
-      >
-        <BookmarkIcon fill={props.isBookmarked ? "black" : "none"} />
-      </LogoButton>
+        <LogoButton
+          className="absolute bottom-0 right-0"
+          onClick={() =>
+            props.selectedMovie && props.onBookmark(props.selectedMovie)
+          }
+        >
+          <BookmarkIcon fill={props.isBookmarked ? "black" : "none"} />
+        </LogoButton>
 
-      <div className="flex flex-row pt-2">
-        <div className="w-full">
-          <img
-            src={props.selectedMovie?.Poster}
-            alt={`${props.selectedMovie?.Title} Poster`}
-          />
+        <div>
+          <h1 className="w-[90%] text-4xl font-bold">
+            {props.selectedMovie?.Title}
+          </h1>
+          <p className="capitalize">
+            {props.selectedMovie?.Type} ∙ {props.selectedMovie?.Year}
+          </p>
         </div>
 
-        <div className="pl-4">
-          <h3 className="mb-2">
-            <b>Plot</b>
-            <br />
-            {props.selectedMovie?.Plot}
-          </h3>
+        <div className="mt-4 flex flex-row">
+          {props.selectedMovie?.Poster && (
+            <div className="mr-4">
+              <Image
+                src={props.selectedMovie?.Poster || ""}
+                width={278}
+                height={417}
+                alt={`${props.selectedMovie?.Title} Poster`}
+              />
+            </div>
+          )}
 
-          <h3 className="mb-10">
-            <b>IMDb Rating</b>
-            <br />
-            {props.selectedMovie?.imdbRating}
-          </h3>
+          <div className="flex min-w-80 max-w-xl flex-col gap-4">
+            {props.selectedMovie?.Plot && (
+              <p>
+                <b>Plot</b>
+                <br />
+                {props.selectedMovie?.Plot}
+              </p>
+            )}
 
-          <h3 className="mb-2">
-            <b>Director</b>
-            <br />
-            {props.selectedMovie?.Director}
-          </h3>
+            {props.selectedMovie?.imdbRating && (
+              <p>
+                <b>IMDb Rating</b>
+                <br />
+                {props.selectedMovie?.imdbRating}
+              </p>
+            )}
 
-          <h3 className="mb-10">
-            <b>Actors</b>
-            <br />
-            {props.selectedMovie?.Actors}
-          </h3>
+            {props.selectedMovie?.Director && (
+              <p>
+                <b>Director</b>
+                <br />
+                {props.selectedMovie?.Director}
+              </p>
+            )}
 
-          <h3 className="mb-2">
-            <b>Language</b>
-            <br />
-            {props.selectedMovie?.Language}
-          </h3>
+            {props.selectedMovie?.Actors && (
+              <p>
+                <b>Actors</b>
+                <br />
+                {props.selectedMovie?.Actors}
+              </p>
+            )}
 
-          <h3 className="mb-2">
-            <b>Country</b>
-            <br />
-            {props.selectedMovie?.Country}
-          </h3>
+            {props.selectedMovie?.Language && (
+              <p>
+                <b>Language</b>
+                <br />
+                {props.selectedMovie?.Language}
+              </p>
+            )}
+
+            {props.selectedMovie?.Country && (
+              <p className="mr-4">
+                <b>Country</b>
+                <br />
+                {props.selectedMovie?.Country}
+              </p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

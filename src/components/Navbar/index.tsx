@@ -34,7 +34,7 @@ export function Navbar({
 
           <div className="nav-buttons">
             {isMainPage && (
-              <Link href="/list" className="pr-4">
+              <Link href="/list">
                 <ListIcon />
               </Link>
             )}

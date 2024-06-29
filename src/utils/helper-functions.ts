@@ -35,7 +35,7 @@ export const unBookmarkMovie = (
   return updatedMovies;
 };
 
-export const toggleBookmark = async (
+export const fetchMovie = async (
   movie: MovieProps | MovieSearchProps,
   storedMovies: MovieProps[],
   setSelectedMovie: (fetchedMovie: MovieProps) => void,
@@ -43,6 +43,7 @@ export const toggleBookmark = async (
   setSelectedMovieVisible: (_: boolean) => void,
 ) => {
   const fetchedMovie = await fetchMovieByID(movie.imdbID);
+
   setSelectedMovie({ ...fetchedMovie, imdbID: movie.imdbID });
 
   if (doesMovieExist(fetchedMovie, storedMovies)) {
@@ -52,4 +53,13 @@ export const toggleBookmark = async (
   }
 
   setSelectedMovieVisible(true);
+};
+
+export const isValidUrl = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+  } catch (error) {
+    return false;
+  }
 };

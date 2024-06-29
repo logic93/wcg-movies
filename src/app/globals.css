@@ -38,15 +38,15 @@
   }
 
   .omdb-content {
-    @apply absolute left-0 right-3.5 m-auto w-full max-w-xl rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-opacity duration-300;
+    @apply absolute left-[17px] right-0 top-[8px] m-auto w-full max-w-xl overflow-hidden rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-opacity duration-300;
   }
 
   .omdb-list {
-    @apply flex flex-col divide-y divide-slate-200;
+    @apply flex flex-col divide-y divide-slate-500;
   }
 
   .omdb-item {
-    @apply flex flex-row items-center justify-between;
+    @apply flex flex-row;
   }
 
   .omdb-info {
@@ -54,7 +54,7 @@
   }
 
   .omdb-button {
-    @apply max-h-20 p-2 hover:bg-[#313131];
+    @apply min-h-[40px] hover:bg-[#313131];
   }
 
   .modal {
@@ -66,7 +66,7 @@
   }
 
   .modal-content {
-    @apply relative mx-auto max-w-xl rounded bg-white p-4 drop-shadow;
+    @apply relative mx-auto rounded bg-white p-4 drop-shadow;
   }
 
   .show {
