@@ -184,6 +184,7 @@ export default function List() {
       </Modal>
 
       <Modal
+        contentClassName="mx-auto overflow-none rounded h-auto scroll-auto"
         isVisible={deleteAllModalVisible}
         onClose={() => setDeleteAllModalVisible(false)}
       >
@@ -212,7 +213,7 @@ export default function List() {
       </Modal>
 
       <Modal
-        contentClassName="bg-[#1F1F1F] max-w-2xl w-full"
+        contentClassName="bg-[#1F1F1F] max-w-2xl w-full m-auto"
         isVisible={customMovieModalVisible}
         onClose={() => setCustomMovieModalVisible(false)}
       >
@@ -231,8 +232,8 @@ export default function List() {
             Add new movie
           </h1>
 
-          <div className="mt-2 flex flex-row text-white">
-            <div className="mr-4 flex flex-1 flex-col">
+          <div className="mt-2 flex flex-row text-white max-[425px]:flex-col">
+            <div className="mr-4 flex flex-1 flex-col max-[425px]:m-0 max-[425px]:mt-4">
               <p>Image</p>
               <Image
                 width={278}
@@ -253,7 +254,7 @@ export default function List() {
               />
             </div>
 
-            <div className="flex flex-1 flex-col justify-between gap-4">
+            <div className="flex flex-1 flex-col justify-between gap-4 max-[425px]:mt-4">
               <div>
                 <label htmlFor="Title">Title</label>
                 <input
@@ -319,7 +320,7 @@ export default function List() {
             <button
               disabled={customMovieAlreadyExist}
               type="submit"
-              className={`min-h-11 rounded px-4 font-bold outline-none ${customMovieAlreadyExist ? "bg-transparent px-0 text-white" : "bg-white"}`}
+              className={`min-h-11 rounded px-4 font-bold outline-none max-[425px]:w-full ${customMovieAlreadyExist ? "bg-transparent px-0 text-white" : "bg-white"}`}
             >
               {customMovieAlreadyExist
                 ? "Movie exist already. Please choose another title."
