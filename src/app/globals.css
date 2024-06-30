@@ -8,17 +8,17 @@
   }
 
   .content-container {
-    @apply relative;
+    @apply relative h-full w-full;
   }
 }
 
 @layer components {
   .nav {
-    @apply sticky z-10 h-16 w-full bg-[#121212] px-2 drop-shadow;
+    @apply fixed z-10 h-20 w-full bg-[#121212] px-4 drop-shadow;
   }
 
   .nav-wrapper {
-    @apply m-auto h-full max-w-7xl;
+    @apply mx-auto h-full max-w-7xl;
   }
 
   .nav-content {
@@ -30,15 +30,15 @@
   }
 
   .search-input {
-    @apply mx-5 min-h-11 w-full max-w-xl appearance-none rounded border-none bg-white py-1.5 pl-2 outline-none;
+    @apply mx-5 min-h-14 w-full max-w-xl appearance-none rounded border-none bg-white py-1.5 pl-2 outline-none;
   }
 
   .omdb-container {
-    @apply fixed h-full w-full;
+    @apply h-full w-full;
   }
 
   .omdb-content {
-    @apply absolute left-[17px] right-0 top-[8px] m-auto w-full max-w-xl overflow-hidden rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-opacity duration-300;
+    @apply absolute left-0 right-0 top-[5rem] m-4 max-w-xl overflow-y-scroll scroll-smooth rounded bg-[#1F1F1F] text-white opacity-0 drop-shadow transition-opacity duration-300 min-[608px]:mx-auto min-[714px]:left-[20px];
   }
 
   .omdb-list {
@@ -66,7 +66,7 @@
   }
 
   .modal-content {
-    @apply relative mx-auto rounded bg-white p-4 drop-shadow;
+    @apply relative mx-auto rounded bg-white p-4 drop-shadow max-[774px]:mx-4 max-[640px]:mx-0 max-[640px]:h-full max-[640px]:overflow-y-scroll max-[640px]:scroll-smooth max-[640px]:rounded-none;
   }
 
   .show {

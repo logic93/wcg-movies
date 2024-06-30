@@ -32,19 +32,19 @@ export default function MovieContent(props: MovieContentProps) {
           </p>
         </div>
 
-        <div className="mt-4 flex flex-row">
-          <div className="mr-4">
+        <div className="mt-4 flex flex-row max-[640px]:flex-col">
+          <div className="mr-4 h-full w-full flex-1 max-[640px]:m-0 max-[640px]:w-full">
             <Image
               src={props.selectedMovie?.Poster || PosterPlaceholder}
               width={278}
               height={417}
               priority
               alt={`${props.selectedMovie?.Title} Poster`}
-              className="h-auto w-auto"
+              className="h-full w-full max-[640px]:w-full"
             />
           </div>
 
-          <div className="flex min-w-80 max-w-xl flex-col gap-4">
+          <div className="flex max-w-xl flex-col gap-4 max-[640px]:mt-4 min-[640px]:w-[50%]">
             {props.selectedMovie?.Plot && (
               <p>
                 <b>Plot</b>

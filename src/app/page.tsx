@@ -88,7 +88,7 @@ export default function Home() {
         <WCGMovieIcon />
       </LogoButton>
 
-      <div className="h-full w-full">
+      <div className="h-screen w-full">
         <div className="content-container">
           <OMDbDropdown
             isVisible={omdbVisible}

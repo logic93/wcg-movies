@@ -121,7 +121,7 @@ export default function List() {
         onDeleteAll={() => setDeleteAllModalVisible(true)}
       />
 
-      <div className="mx-auto h-full max-w-7xl">
+      <div className="mx-auto h-full max-w-7xl pt-20">
         <div className="flex h-full w-full items-center justify-center">
           <ul className="grid w-full grid-cols-2 gap-4 overflow-y-auto p-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {myMovies &&
